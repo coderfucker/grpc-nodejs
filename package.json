@@ -1,0 +1,23 @@
+{
+  "name": "grpc-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node --files src/test",
+    "dev": "ts-node --files src/server",
+    "build": "tsc -p tsconfig.json",
+    "gen:types": "proto-loader-gen-types --longs=String --enums=String --oneofs --outDir=proto --grpcLib=@grpc/grpc-js proto/news.proto"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.17",
+    "@grpc/proto-loader": "^0.7.8"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
