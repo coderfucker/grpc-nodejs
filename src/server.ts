@@ -1,6 +1,12 @@
+import * as path from 'path'
 import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
-import * as path from 'path'
+import wrapServerWithReflection from 'grpc-node-server-reflection';
+import { ProtoGrpcType } from './types/proto/blog'
+import { Post } from './types/proto/Post'
+import { Empty } from './types/proto/Empty'
+import { PostList } from './types/proto/PostList'
+import { PostId } from './types/proto/PostId'
 
 const options = {
   keepCase: true,
@@ -9,53 +15,51 @@ const options = {
   oneofs: true
 }
 
-const packageDefinition = protoLoader.loadSync(path.join(__dirname, 'news.proto'), options)
+const packageDefinition = protoLoader.loadSync(path.join(__dirname, 'blog.proto'), options)
 
-console.log(packageDefinition)
-const newsProto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as any
+const blogProto = grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType
 
-const server = new grpc.Server()
+const server = wrapServerWithReflection(new grpc.Server())
 
-let news = [
+let posts: Post[] = [
   { id: "1", title: "Note 1", body: "Content 1", postImage: "Post image 1" },
   { id: "2", title: "Note 2", body: "Content 2", postImage: "Post image 2" }
 ]
 
-
-server.addService(newsProto.NewsService.service, {
-  getAllNews: (call: any, callback: (arg0: null, arg1: { news: { id: string; title: string; body: string; postImage: string }[]; message: any }) => void) => {
-    callback(null, { news, message: call })
+server.addService(blogProto.PostService.service, {
+  GetAllPost: (call: grpc.ServerUnaryCall<Empty, PostList>, callback: grpc.sendUnaryData<PostList>) => {
+    callback(null, { posts })
   },
-  addNews: (call: { request: any }, callback: (arg0: null, arg1: any) => void) => {
-    const _news = { id: Date.now().toString(), ...call.request }
-    news.push(_news)
-    callback(null, _news)
+  AddPost: (call: grpc.ServerUnaryCall<Post, Post>, callback: grpc.sendUnaryData<Post>) => {
+    const _post: Post = { id: Date.now().toString(), ...call.request }
+    posts.push(_post)
+    callback(null, _post)
   },
-  deleteNews: (_: { request: { id: any } }, callback: (arg0: null, arg1: {}) => void) => {
-    const newsId = _.request.id
-    news = news.filter(({ id }) => id !== newsId)
+  DeletePost: (call: grpc.ServerUnaryCall<PostId, Empty>, callback: grpc.sendUnaryData<Empty>) => {
+    const postId = call.request.id
+    posts = posts.filter(({ id }) => id !== postId)
     callback(null, {})
   },
-  editNews: (_: { request: { id: any; body: string; postImage: string; title: string } }, callback: (arg0: null, arg1: { id: string; title: string; body: string; postImage: string }) => void) => {
-    const newsId = _.request.id
-    const newsItem = news.find(({ id }) => newsId === id) as typeof news[number]
-    newsItem.body = _.request.body
-    newsItem.postImage = _.request.postImage
-    newsItem.title = _.request.title
-    callback(null, newsItem)
+  EditPost: (call: grpc.ServerUnaryCall<Post, Post>, callback: grpc.sendUnaryData<Post>) => {
+    const postId = call.request.id
+    const postItem = posts.find(({ id }) => postId === id) as Post
+    postItem.body = call.request.body
+    postItem.postImage = call.request.postImage
+    postItem.title = call.request.title
+    callback(null, postItem)
   },
-  getNews: (_: { request: { id: any } }, callback: (arg0: null, arg1: { id: string; title: string; body: string; postImage: string } | undefined) => void) => {
-    const newsId = _.request.id
-    const newsItem = news.find(({ id }) => newsId === id)
-    callback(null, newsItem)
+  GetPost: (call: grpc.ServerUnaryCall<PostId, Post>, callback: grpc.sendUnaryData<Post>) => {
+    const postId = call.request.id
+    const postItem = posts.find(({ id }) => postId === id)
+    callback(null, postItem)
   }
 })
 
 server.bindAsync(
   '127.0.0.1:50051',
   grpc.ServerCredentials.createInsecure(),
-  (error, port) => {
-    console.log(`Server running at http://127.0.0.1:${port}`)
+  (_, port) => {
+    console.log(`gRPC Server running at 127.0.0.1:${port}`)
     server.start()
   }
 )

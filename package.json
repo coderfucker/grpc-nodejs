@@ -7,14 +7,16 @@
     "test": "ts-node --files src/test",
     "dev": "ts-node --files src/server",
     "build": "tsc -p tsconfig.json",
-    "gen:types": "proto-loader-gen-types --longs=String --enums=String --oneofs --outDir=proto --grpcLib=@grpc/grpc-js proto/news.proto"
+    "gen:proto-types": "rimraf src/types/proto && proto-loader-gen-types --longs=String --enums=String --oneofs --outDir=src/types/proto --grpcLib=@grpc/grpc-js src/*.proto"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@grpc/grpc-js": "^1.8.17",
-    "@grpc/proto-loader": "^0.7.8"
+    "@grpc/proto-loader": "^0.7.8",
+    "grpc-node-server-reflection": "^1.0.2",
+    "rimraf": "^5.0.1"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
