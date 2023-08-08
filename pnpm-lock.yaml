@@ -6,11 +6,14 @@ settings:
 
 dependencies:
   '@grpc/grpc-js':
-    specifier: ^1.8.17
-    version: 1.8.17
+    specifier: ^1.9.0
+    version: 1.9.0
   '@grpc/proto-loader':
     specifier: ^0.7.8
     version: 0.7.8
+  grpc-js-health-check:
+    specifier: ^1.1.0
+    version: 1.1.0
   grpc-node-server-reflection:
     specifier: ^1.0.2
     version: 1.0.2
@@ -21,7 +24,7 @@ dependencies:
 devDependencies:
   ts-node:
     specifier: ^10.9.1
-    version: 10.9.1(@types/node@20.4.1)(typescript@5.1.6)
+    version: 10.9.1(@types/node@20.4.8)(typescript@5.1.6)
   typescript:
     specifier: ^5.1.6
     version: 5.1.6
@@ -35,12 +38,12 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
-  /@grpc/grpc-js@1.8.17:
-    resolution: {integrity: sha512-DGuSbtMFbaRsyffMf+VEkVu8HkSXEUfO3UyGJNtqxW9ABdtTIA+2UXAJpwbJS+xfQxuwqLUeELmL6FuZkOqPxw==}
+  /@grpc/grpc-js@1.9.0:
+    resolution: {integrity: sha512-H8+iZh+kCE6VR/Krj6W28Y/ZlxoZ1fOzsNt77nrdE3knkbSelW1Uus192xOFCxHyeszLj8i4APQkSIXjAoOxXg==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.8
-      '@types/node': 20.4.1
+      '@types/node': 20.4.8
     dev: false
 
   /@grpc/proto-loader@0.6.13:
@@ -165,8 +168,8 @@ packages:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
     dev: false
 
-  /@types/node@20.4.1:
-    resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
+  /@types/node@20.4.8:
+    resolution: {integrity: sha512-0mHckf6D2DiIAzh8fM8f3HQCvMKDpK94YQ0DSVkfWTG9BZleYIWudw9cJxX8oCk9bM+vAkDyujDV6dmKHbvQpg==}
 
   /acorn-walk@8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
@@ -307,11 +310,19 @@ packages:
     resolution: {integrity: sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==}
     dev: false
 
+  /grpc-js-health-check@1.1.0:
+    resolution: {integrity: sha512-kmCXpt9jmkG5zlVvcC2tSN+3287X2Z8VF6HdhcsS644FonCN8mQe1xEHSYNJsyOeK4Knaz1R1RGy1MNte2Vnbg==}
+    dependencies:
+      '@grpc/grpc-js': 1.9.0
+      '@grpc/proto-loader': 0.7.8
+      lodash: 4.17.21
+    dev: false
+
   /grpc-node-server-reflection@1.0.2:
     resolution: {integrity: sha512-cHEHawsoL2HPZ8Q70i5vS8FU4yfFMDIVfHUU9iZehCjLrc4zb3LRVs5fGqQoJalefs46BAnICxYExkelXZG74w==}
     requiresBuild: true
     dependencies:
-      '@grpc/grpc-js': 1.8.17
+      '@grpc/grpc-js': 1.9.0
       '@grpc/proto-loader': 0.6.13
       google-protobuf: 3.21.2
     dev: false
@@ -336,6 +347,10 @@ packages:
 
   /lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
+    dev: false
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /long@4.0.0:
@@ -396,7 +411,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 20.4.1
+      '@types/node': 20.4.8
       long: 4.0.0
     dev: false
 
@@ -415,7 +430,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.4.1
+      '@types/node': 20.4.8
       long: 5.2.3
     dev: false
 
@@ -481,7 +496,7 @@ packages:
       ansi-regex: 6.0.1
     dev: false
 
-  /ts-node@10.9.1(@types/node@20.4.1)(typescript@5.1.6):
+  /ts-node@10.9.1(@types/node@20.4.8)(typescript@5.1.6):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -500,7 +515,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.4.1
+      '@types/node': 20.4.8
       acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3

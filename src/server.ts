@@ -1,6 +1,7 @@
 import * as path from 'path'
 import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
+import * as health from 'grpc-js-health-check'
 import wrapServerWithReflection from 'grpc-node-server-reflection';
 import { ProtoGrpcType } from './types/proto/blog'
 import { Post } from './types/proto/Post'
@@ -25,6 +26,10 @@ let posts: Post[] = [
   { id: "1", title: "Note 1", body: "Content 1", postImage: "Post image 1" },
   { id: "2", title: "Note 2", body: "Content 2", postImage: "Post image 2" }
 ]
+
+server.addService(health.service, new health.Implementation({
+  '': health.servingStatus.SERVING
+}))
 
 server.addService(blogProto.PostService.service, {
   GetAllPost: (call: grpc.ServerUnaryCall<Empty, PostList>, callback: grpc.sendUnaryData<PostList>) => {
